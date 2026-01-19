@@ -1,0 +1,12 @@
+WITH CTE AS (
+    select STARTED_AT,
+    TO_TIMESTAMP(STARTED_AT),
+    DATE(TO_TIMESTAMP(STARTED_AT)) AS DATE_STARTED_AT,
+    HOUR(TO_TIMESTAMP(STARTED_AT)) AS HOUR_STARTED_AT,
+    DAYNAME(TO_TIMESTAMP(STARTED_AT)) AS DAY_OF_WEEK,
+    {{get_date_type('STARTED_AT')}} AS STATION_OF_YEAR,
+    {{get_season('STARTED_AT')}} AS STATION_OF_YEAR
+    from {{ source('demo', 'bike') }}
+    where STARTED_AT!='STARTED_AT'
+)
+select * from CTE
